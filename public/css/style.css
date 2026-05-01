@@ -1,0 +1,54 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #333; }
+
+.navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 100; }
+.nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 800; color: #4F46E5; }
+.btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+.btn-primary { background: linear-gradient(45deg, #4F46E5, #7C3AED); color: white; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(79,70,229,0.3); }
+
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 120px 2rem 4rem; max-width: 1200px; margin: 0 auto; align-items: center; }
+.hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; background: linear-gradient(45deg, #4F46E5, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.3rem; color: rgba(255,255,255,0.9); margin: 1rem 0 2rem; }
+
+.stats { display: flex; gap: 3rem; margin: 2rem 0; }
+.stats div { text-align: center; }
+.stats strong { font-size: 2rem; color: white; display: block; }
+
+.features, .pricing { padding: 6rem 2rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); margin: 2rem 0; }
+.features h2, .pricing h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: white; }
+
+.features-grid, .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+
+.feature { background: rgba(255,255,255,0.2); padding: 2rem; border-radius: 16px; text-align: center; }
+.feature i { font-size: 3rem; color: #4F46E5; margin-bottom: 1rem; }
+
+.pricing-cards .card { background: rgba(255,255,255,0.95); padding: 2.5rem; border-radius: 20px; text-align: center; position: relative; }
+.card.popular { border: 3px solid #4F46E5; transform: scale(1.05); }
+.badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #4F46E5; color: white; padding: 5px 20px; border-radius: 20px; font-size: 0.8rem; }
+.price { font-size: 3rem; font-weight: 800; color: #1a1a1a; margin: 1rem 0; }
+.price span { font-size: 1rem; color: #666; }
+
+.auth, .dashboard { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.auth-card { background: rgba(255,255,255,0.95); padding: 3rem; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; }
+.auth-card input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; }
+.btn-instagram { background: linear-gradient(45deg, #E4405F, #F77737); color: white; margin: 1rem 0; }
+
+.dashboard { flex-direction: row; background: #f8fafc; }
+.sidebar { width: 250px; background: linear-gradient(180deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: 2rem 0; }
+.sidebar nav a { display: flex; align-items: center; padding: 1rem 2rem; color: rgba(255,255,255,0.8); text-decoration: none; }
+.sidebar nav a.active { background: rgba(255,255,255,0.2); border-right: 4px solid white; }
+
+main { flex: 1; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+.stat-card { background: white; padding: 2rem; border-radius: 16px; display: flex; gap: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.account-card { background: white; padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin: 1rem 0; }
+
+.status { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.status.active { background: #10B981; color: white; }
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero h1 { font-size: 2.5rem; }
+}

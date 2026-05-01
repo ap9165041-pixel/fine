@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up - InstaRocket</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth">
+  <div class="auth-card">
+    <div class="logo">InstaRocket</div>
+    
+    <form id="authForm">
+      <input type="email" placeholder="Email" id="email" required>
+      <input type="password" placeholder="Password" id="password" required>
+      <input type="text" placeholder="Full Name" id="name" required>
+      <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+
+    <div class="or">OR</div>
+
+    <button id="connectInsta" class="btn btn-instagram">
+      <i class="fab fa-instagram"></i> Connect Instagram
+    </button>
+
+    <p>Already have account? <a href="#" onclick="showLogin()">Login</a></p>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard - InstaRocket</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard">
+  <div class="sidebar">
+    <div class="logo">InstaRocket</div>
+    <nav>
+      <a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+      <a href="#"><i class="fas fa-robot"></i> Automation</a>
+      <a href="#"><i class="fas fa-users"></i> Audience</a>
+      <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </nav>
+  </div>
+  
+  <main>
+    <header>
+      <h1>Dashboard</h1>
+      <div>
+        <span class="plan">Pro Plan</span>
+        <button class="btn btn-primary" onclick="upgradePlan()">Upgrade</button>
+      </div>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fas fa-users"></i>
+        <div>
+          <h2 id="followers">24,567</h2>
+          <p>Followers Gained</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-heart"></i>
+        <div>
+          <h2 id="likes">1,234</h2>
+          <p>New Likes</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accounts">
+      <h2>Connected Accounts</h2>
+      <div class="account-card">
+        <div>
+          <img src="https://via.placeholder.com/40" alt="@username">
+          <div>
+            <h4>@yourusername</h4>
+            <p>12.5K followers • Pro</p>
+          </div>
+        </div>
+        <span class="status active">Active</span>
+      </div>
+    </div>
+
+    <div class="automation">
+      <h2>Automation Controls</h2>
+      <div>
+        <label>Daily Actions: <span id="actionCount">200</span></label>
+        <input type="range" min="50" max="2000" value="200" id="actions">
+      </div>
+      <button class="btn btn-success" onclick="startAutomation()">Start Automation</button>
+    </div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
