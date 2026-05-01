@@ -1,30 +1,32 @@
-// Load dashboard data
-async function loadDashboard() {
+// Check auth on load
+window.addEventListener('load', async () => {
   const token = localStorage.getItem('token');
-  if (!token) return window.location.href = 'auth.html';
+  if (!token) {
+    window.location.href = 'auth.html';
+    return;
+  }
 
   try {
-    const res = await fetch('/api/dashboard', {
+    const res = await fetch('http://localhost:3000/api/dashboard', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
+    
+    if (!res.ok) {
+      localStorage.removeItem('token');
+      window.location.href = 'auth.html';
+      return;
+    }
+    
     const data = await res.json();
-    document.getElementById('followers').textContent = data.stats.followers.toLocaleString();
-    document.getElementById('likes').textContent = data.stats.engagement + '%';
+    console.log('✅ Dashboard loaded:', data);
+    updateDashboard(data);
   } catch (e) {
     localStorage.removeItem('token');
     window.location.href = 'auth.html';
   }
-}
-
-function startAutomation() {
-  alert('✅ Automation Started! 200 actions/day');
-}
-
-function upgradePlan() {
-  window.location.href = 'pricing.html';
-}
-
-loadDashboard();
-document.getElementById('actions').addEventListener('input', (e) => {
-  document.getElementById('actionCount').textContent = e.target.value;
 });
+
+function updateDashboard(data) {
+  document.querySelector('.plan').textContent = data.user.subscription.plan + ' Plan';
+  // Update stats, etc.
+}
