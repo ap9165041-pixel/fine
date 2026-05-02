@@ -24,3 +24,15 @@
     "JWT_SECRET": "your-super-secret-key-1234567890"
   }
 }
+
+{
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
