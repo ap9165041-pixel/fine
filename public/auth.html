@@ -2,107 +2,199 @@
 <html>
 <head>
   <title>Sign Up - InstaRocket</title>
-  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+      min-height: 100vh; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 20px;
+    }
+    .auth-card { 
+      background: rgba(255,255,255,0.95); 
+      padding: 2.5rem; 
+      border-radius: 24px; 
+      width: 100%; 
+      max-width: 400px; 
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
+    }
+    .logo { 
+      text-align: center; 
+      margin-bottom: 2rem; 
+    }
+    .logo h2 { 
+      color: #1f2937; 
+      font-size: 2rem; 
+      font-weight: 800; 
+      margin-bottom: 0.5rem; 
+    }
+    .logo p { 
+      color: #6b7280; 
+      font-size: 0.95rem; 
+    }
+    input { 
+      width: 100%; 
+      padding: 16px; 
+      margin: 12px 0; 
+      border: 2px solid #e5e7eb; 
+      border-radius: 12px; 
+      font-size: 16px; 
+      transition: border-color 0.3s; 
+    }
+    input:focus { 
+      outline: none; 
+      border-color: #4F46E5; 
+    }
+    button { 
+      width: 100%; 
+      padding: 16px; 
+      border: none; 
+      border-radius: 12px; 
+      font-size: 16px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      margin: 12px 0; 
+      transition: all 0.3s; 
+    }
+    .btn-primary { 
+      background: linear-gradient(45deg, #4F46E5, #7C3AED); 
+      color: white; 
+    }
+    .btn-primary:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 10px 25px rgba(79,70,229,0.4); 
+    }
+    .btn-instagram { 
+      background: linear-gradient(45deg, #E4405F, #F77737); 
+      color: white; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 12px; 
+    }
+    .divider { 
+      text-align: center; 
+      margin: 2rem 0; 
+      color: #6b7280; 
+      position: relative; 
+    }
+    .divider::before { 
+      content: ''; 
+      position: absolute; 
+      top: 50%; 
+      left: 0; 
+      right: 0; 
+      height: 1px; 
+      background: #e5e7eb; 
+    }
+    .divider span { 
+      background: rgba(255,255,255,0.95); 
+      padding: 0 1rem; 
+    }
+    .login-link { 
+      text-align: center; 
+      color: #6b7280; 
+      margin-top: 1.5rem; 
+    }
+    .login-link a { 
+      color: #4F46E5; 
+      font-weight: 600; 
+      text-decoration: none; 
+    }
+  </style>
 </head>
-<body style="background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:Inter;">
-  
-  <div style="background:rgba(255,255,255,0.95); padding:3rem; border-radius:24px; width:100%; max-width:420px; box-shadow:0 25px 50px rgba(0,0,0,0.15);">
-    
-    <div style="text-align:center; margin-bottom:2rem;">
-      <h2 style="color:#1f2937; font-size:2rem; font-weight:800; margin-bottom:0.5rem;">InstaRocket</h2>
-      <p style="color:#6b7280;">Join 25K+ creators automating Instagram growth</p>
+<body>
+  <div class="auth-card">
+    <div class="logo">
+      <h2>InstaRocket</h2>
+      <p>Automate Instagram growth safely</p>
     </div>
     
-    <form id="authForm">
-      <input type="text" id="name" placeholder="Full Name" required 
-             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
-      <input type="email" id="email" placeholder="Email Address" required 
-             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
-      <input type="password" id="password" placeholder="Password (6+ chars)" required minlength="6"
-             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
+    <form id="authForm" novalidate>
+      <input type="text" id="name" name="name" placeholder="Full Name" required>
+      <input type="email" id="email" name="email" placeholder="Email Address" required>
+      <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
       
-      <button type="submit" style="
-        width:100%; padding:16px; background:linear-gradient(45deg,#4F46E5,#7C3AED); 
-        color:white; border:none; border-radius:12px; font-size:16px; font-weight:600; 
-        cursor:pointer; margin:16px 0; transition:all 0.3s;">
-        Create Account Free
-      </button>
+      <button type="submit" class="btn-primary">Create Free Account</button>
     </form>
     
-    <div style="text-align:center; margin:2rem 0; color:#6b7280;">or</div>
+    <div class="divider">
+      <span>or</span>
+    </div>
     
-    <button onclick="connectInstagram()" style="
-      width:100%; padding:16px; background:linear-gradient(45deg,#E4405F,#F77737); 
-      color:white; border:none; border-radius:12px; font-size:16px; font-weight:600; 
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:12px;">
+    <button type="button" class="btn-instagram" onclick="connectInstagram()">
       <i class="fab fa-instagram"></i>
       Continue with Instagram
     </button>
     
-    <p style="text-align:center; margin-top:2rem; color:#6b7280;">
-      Already have account? <a href="#" onclick="toggleLogin()" style="color:#4F46E5; font-weight:600;">Login</a>
+    <p class="login-link">
+      Already have account? <a href="#" onclick="showLogin()">Sign in</a>
     </p>
   </div>
 
   <script>
-    let isLogin = false;
+    let isLoginMode = false;
     
-    function toggleLogin() {
-      isLogin = !isLogin;
-      document.getElementById('name').style.display = isLogin ? 'none' : 'block';
-      document.getElementById('authForm').onsubmit = isLogin ? loginUser : registerUser;
-    }
-    
-    async function registerUser(e) {
+    document.getElementById('authForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      await authUser('register');
-    }
-    
-    async function loginUser(e) {
-      e.preventDefault();
-      await authUser('login');
-    }
-    
-    async function authUser(type) {
+      
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const name = document.getElementById('name').value || 'User';
+      const name = document.getElementById('name').value;
+      
+      const isRegister = !isLoginMode;
+      const endpoint = isRegister ? '/api/register' : '/api/login';
+      const body = isRegister ? { email, password, name } : { email, password };
       
       try {
-        const endpoint = type === 'register' ? '/api/register' : '/api/login';
-        const body = type === 'register' ? 
-          { email, password, name } : 
-          { email, password };
+        console.log(`🔄 ${isRegister ? 'Register' : 'Login'} →`, endpoint);
         
-        const res = await fetch(endpoint, {
+        const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
         
-        const data = await res.json();
-        console.log(`${type} response:`, data);
+        const data = await response.json();
+        console.log('✅ Response:', data);
         
         if (data.token) {
           localStorage.setItem('token', data.token);
-          alert(`✅ ${type === 'register' ? 'Account created!' : 'Welcome back!'} Redirecting...`);
+          alert(`🎉 ${isRegister ? 'Account created!' : 'Welcome back!'} → Dashboard`);
           window.location.href = '/dashboard.html';
         } else {
-          alert(`❌ ${data.error || 'Something went wrong'}`);
+          alert(`❌ ${data.error || 'Try again'}`);
         }
-      } catch (err) {
-        console.error('Network error:', err);
+      } catch (error) {
+        console.error('🌐 Error:', error);
         alert('❌ Network error - Check console (F12)');
       }
+    });
+    
+    function showLogin() {
+      isLoginMode = true;
+      document.getElementById('name').style.display = 'none';
+      document.querySelector('button[type="submit"]').textContent = 'Sign In';
+      document.querySelector('.login-link').innerHTML = 'New here? <a href="#" onclick="showRegister()">Create account</a>';
+    }
+    
+    function showRegister() {
+      isLoginMode = false;
+      document.getElementById('name').style.display = 'block';
+      document.querySelector('button[type="submit"]').textContent = 'Create Free Account';
+      document.querySelector('.login-link').innerHTML = 'Already have account? <a href="#" onclick="showLogin()">Sign in</a>';
     }
     
     function connectInstagram() {
-      alert('🚀 Instagram Connect Coming Soon!\n\nFor now use Email signup 😊');
+      alert('🚀 Instagram OAuth coming soon!\nUse email for now 😊');
     }
     
     // Auto focus
-    document.getElementById('name')?.focus();
+    document.getElementById('name').focus();
   </script>
 </body>
 </html>
