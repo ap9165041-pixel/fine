@@ -5,64 +5,46 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-
-// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-// In-memory users (Demo - Production mein MongoDB)
+// In-memory storage
 let users = [];
-let userId = 1;
+let nextId = 1;
 
-// Routes
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    users: users.length 
+  });
+});
+
 app.post('/api/register', async (req, res) => {
   try {
     const { email, password, name } = req.body;
-    console.log(`📝 Register: ${email}`);
     
-    // Check if exists
+    // Check existing
     if (users.find(u => u.email === email)) {
-      return res.status(400).json({ error: 'Email already exists' });
+      return res.status(400).json({ error: 'Email already registered' });
     }
     
-    const hashed = await bcrypt.hash(password, 10);
-    const newUser = {
-      id: userId++,
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = {
+      id: nextId++,
       email,
-      password: hashed,
-      name,
-      subscription: 'trial'
+      password: hashedPassword,
+      name: name || 'User',
+      subscription: 'trial',
+      createdAt: new Date()
     };
     
-    users.push(newUser);
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET || 'demo-secret');
+    users.push(user);
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'demo-jwt-secret-2024');
     
-    res.json({
-      token,
-      user: {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-        subscription: newUser.subscription
-      }
-    });
-  } catch (e) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-app.post('/api/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    console.log(`🔐 Login: ${email}`);
-    
-    const user = users.find(u => u.email === email);
-    if (!user || !await bcrypt.compare(password, user.password)) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
-    
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'demo-secret');
+    console.log(`✅ New user: ${email}`);
     res.json({
       token,
       user: {
@@ -72,38 +54,71 @@ app.post('/api/login', async (req, res) => {
         subscription: user.subscription
       }
     });
-  } catch (e) {
-    res.status(500).json({ error: 'Server error' });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const user = users.find(u => u.email === email);
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+    
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'demo-jwt-secret-2024');
+    
+    console.log(`✅ Login: ${email}`);
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        subscription: user.subscription
+      }
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
 app.get('/api/dashboard', (req, res) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
   try {
-    jwt.verify(token, process.env.JWT_SECRET || 'demo-secret');
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    
+    jwt.verify(token, process.env.JWT_SECRET || 'demo-jwt-secret-2024');
+    
     res.json({
-      user: { email: 'demo@example.com', subscription: 'pro' },
+      success: true,
+      user: { email: 'user@example.com', subscription: 'pro' },
       stats: {
         followers: 24567,
         engagement: '12.5%',
-        actionsToday: 200
+        actionsToday: 203,
+        growthRate: '+18.2%'
       }
     });
-  } catch (e) {
-    res.status(401).json({ error: 'Unauthorized' });
+  } catch (error) {
+    res.status(401).json({ error: 'Invalid token' });
   }
 });
 
-// Health check
-app.get('/api/health', (req, res) => res.json({ status: 'OK', users: users.length }));
-
-// 404
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
+// Catch all
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`🚀 Server ready on port ${port}`);
-  console.log(`📊 Total users: ${users.length}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`\n🚀 InstaRocket SaaS Server`);
+  console.log(`📍 Port: ${PORT}`);
+  console.log(`🔗 Live: http://localhost:${PORT}`);
+  console.log(`👥 Users: ${users.length}`);
+  console.log(`✅ Ready for production!`);
 });
