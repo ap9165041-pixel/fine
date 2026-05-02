@@ -1,146 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login - InstaRocket</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: system-ui; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-      min-height: 100vh; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
-    .card { 
-      background: white; 
-      padding: 2rem; 
-      border-radius: 16px; 
-      width: 100%; 
-      max-width: 400px; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
-    }
-    input { 
-      width: 100%; 
-      padding: 12px; 
-      margin: 8px 0; 
-      border: 2px solid #eee; 
-      border-radius: 8px; 
-      font-size: 16px; 
-    }
-    button { 
-      width: 100%; 
-      padding: 14px; 
-      background: #4F46E5; 
-      color: white; 
-      border: none; 
-      border-radius: 8px; 
-      font-size: 16px; 
-      cursor: pointer; 
-      margin: 8px 0; 
-    }
-    button:hover { background: #3730a3; }
-    .toggle { text-align: center; margin-top: 1rem; }
-    .status { padding: 10px; margin: 10px 0; border-radius: 8px; }
-    .success { background: #10B981; color: white; }
-    .error { background: #EF4444; color: white; }
-  </style>
+  <title>Sign Up - InstaRocket</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="card">
-    <h2>🚀 InstaRocket</h2>
+<body style="background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:Inter;">
+  
+  <div style="background:rgba(255,255,255,0.95); padding:3rem; border-radius:24px; width:100%; max-width:420px; box-shadow:0 25px 50px rgba(0,0,0,0.15);">
     
-    <div id="status"></div>
-    
-    <input type="email" id="email" placeholder="test@example.com" value="test@example.com">
-    <input type="password" id="password" placeholder="password123" value="password123">
-    
-    <button onclick="login()">Login</button>
-    <button onclick="register()">Register New Account</button>
-    
-    <div class="toggle">
-      <a href="#" onclick="toggleMode()">Switch to Register</a>
+    <div style="text-align:center; margin-bottom:2rem;">
+      <h2 style="color:#1f2937; font-size:2rem; font-weight:800; margin-bottom:0.5rem;">InstaRocket</h2>
+      <p style="color:#6b7280;">Join 25K+ creators automating Instagram growth</p>
     </div>
+    
+    <form id="authForm">
+      <input type="text" id="name" placeholder="Full Name" required 
+             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
+      <input type="email" id="email" placeholder="Email Address" required 
+             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
+      <input type="password" id="password" placeholder="Password (6+ chars)" required minlength="6"
+             style="width:100%; padding:16px; margin:8px 0; border:2px solid #e5e7eb; border-radius:12px; font-size:16px;">
+      
+      <button type="submit" style="
+        width:100%; padding:16px; background:linear-gradient(45deg,#4F46E5,#7C3AED); 
+        color:white; border:none; border-radius:12px; font-size:16px; font-weight:600; 
+        cursor:pointer; margin:16px 0; transition:all 0.3s;">
+        Create Account Free
+      </button>
+    </form>
+    
+    <div style="text-align:center; margin:2rem 0; color:#6b7280;">or</div>
+    
+    <button onclick="connectInstagram()" style="
+      width:100%; padding:16px; background:linear-gradient(45deg,#E4405F,#F77737); 
+      color:white; border:none; border-radius:12px; font-size:16px; font-weight:600; 
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:12px;">
+      <i class="fab fa-instagram"></i>
+      Continue with Instagram
+    </button>
+    
+    <p style="text-align:center; margin-top:2rem; color:#6b7280;">
+      Already have account? <a href="#" onclick="toggleLogin()" style="color:#4F46E5; font-weight:600;">Login</a>
+    </p>
   </div>
 
   <script>
-    let isLogin = true;
+    let isLogin = false;
     
-    async function showStatus(msg, isError = false) {
-      const status = document.getElementById('status');
-      status.textContent = msg;
-      status.className = 'status ' + (isError ? 'error' : 'success');
-    }
-    
-    async function login() {
-      showStatus('Logging in...');
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      try {
-        const res = await fetch('http://localhost:3000/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        
-        const data = await res.json();
-        
-        if (data.success || data.token) {
-          localStorage.setItem('token', data.token);
-          showStatus('✅ Login Success! Redirecting...');
-          setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 1000);
-        } else {
-          showStatus('❌ ' + (data.error || 'Login failed'), true);
-        }
-      } catch (e) {
-        showStatus('❌ Server not running? Check terminal!', true);
-      }
-    }
-    
-    async function register() {
-      showStatus('Creating account...');
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const name = email.split('@')[0];
-      
-      try {
-        const res = await fetch('http://localhost:3000/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, name })
-        });
-        
-        const data = await res.json();
-        
-        if (data.success || data.token) {
-          localStorage.setItem('token', data.token);
-          showStatus('✅ Account created! Logging in...');
-          setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 1000);
-        } else {
-          showStatus('❌ ' + (data.error || 'Registration failed'), true);
-        }
-      } catch (e) {
-        showStatus('❌ Network error', true);
-      }
-    }
-    
-    function toggleMode() {
+    function toggleLogin() {
       isLogin = !isLogin;
-      document.querySelectorAll('button')[0].textContent = isLogin ? 'Login' : 'Create Account';
-      document.querySelectorAll('button')[1].style.display = isLogin ? 'block' : 'none';
+      document.getElementById('name').style.display = isLogin ? 'none' : 'block';
+      document.getElementById('authForm').onsubmit = isLogin ? loginUser : registerUser;
     }
     
-    // Enter key
-    document.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') login();
-    });
+    async function registerUser(e) {
+      e.preventDefault();
+      await authUser('register');
+    }
+    
+    async function loginUser(e) {
+      e.preventDefault();
+      await authUser('login');
+    }
+    
+    async function authUser(type) {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const name = document.getElementById('name').value || 'User';
+      
+      try {
+        const endpoint = type === 'register' ? '/api/register' : '/api/login';
+        const body = type === 'register' ? 
+          { email, password, name } : 
+          { email, password };
+        
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        
+        const data = await res.json();
+        console.log(`${type} response:`, data);
+        
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          alert(`✅ ${type === 'register' ? 'Account created!' : 'Welcome back!'} Redirecting...`);
+          window.location.href = '/dashboard.html';
+        } else {
+          alert(`❌ ${data.error || 'Something went wrong'}`);
+        }
+      } catch (err) {
+        console.error('Network error:', err);
+        alert('❌ Network error - Check console (F12)');
+      }
+    }
+    
+    function connectInstagram() {
+      alert('🚀 Instagram Connect Coming Soon!\n\nFor now use Email signup 😊');
+    }
+    
+    // Auto focus
+    document.getElementById('name')?.focus();
   </script>
 </body>
 </html>
